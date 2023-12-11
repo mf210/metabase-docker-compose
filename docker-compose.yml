@@ -4,30 +4,35 @@ services:
   metabase:
     image: metabase/metabase
     container_name: metabase
-    # environment:
-    #   - MB_DB_TYPE=postgres
-    #   - MB_DB_DBNAME=metabaseappdb
-    #   - MB_DB_PORT=5432
-    #   - MB_DB_USER=posgres
-    #   - MB_DB_PASS=password
-    #   - MB_DB_HOST=postgres
+    environment:
+      - MB_DB_TYPE=postgres
+      - MB_DB_DBNAME=metabaseappdb
+      - MB_DB_PORT=5432
+      - MB_DB_USER=posgres
+      - MB_DB_PASS=password
+      - MB_DB_HOST=postgres
     ports:
       - 3000:3000
     networks:
       - metabase-net
 
-  # postgres:
-  #   image: postgres
-  #   container_name: my-postgres
-  #   environment:
-  #     POSTGRES_DB: metabaseappdb
-  #     POSTGRES_USER: posgres
-  #     POSTGRES_PASSWORD: password
-  #   ports:
-  #     - 5432:5432
-  #   networks:
-  #     - metabase-net
+  postgres:
+    image: postgres
+    container_name: my-postgres
+    environment:
+      POSTGRES_DB: metabaseappdb
+      POSTGRES_USER: posgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - metabase-net
 
 networks:
   metabase-net:
     name: metabase-net
+
+volumes:
+  postgres-data:
